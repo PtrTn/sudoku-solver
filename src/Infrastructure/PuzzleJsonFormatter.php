@@ -8,10 +8,12 @@ use InvalidArgumentException;
 
 final class PuzzleJsonFormatter
 {
+    private const PUZZLE_SIZE = 9;
+
     public function format(array $json): array
     {
         if (!isset($json['squares'])) {
-            throw new InvalidArgumentException('Invalid data structure in puzzle file');
+            throw new InvalidArgumentException('Invalid data structure in puzzle');
         }
 
         $puzzle = $this->createEmptyPuzzle();
@@ -30,12 +32,29 @@ final class PuzzleJsonFormatter
     private function validateSquare(array $square)
     {
         if (!isset($square['x'], $square['y'], $square['value'])) {
-            throw new InvalidArgumentException('Invalid square data in puzzle file');
+            throw new InvalidArgumentException('Invalid square data in puzzle');
+        }
+        if ($square['x'] < 0 || $square['x'] >= self::PUZZLE_SIZE) {
+            throw new InvalidArgumentException('Invalid x in puzzle');
+        }
+        if ($square['y'] < 0 || $square['x'] >= self::PUZZLE_SIZE) {
+            throw new InvalidArgumentException('Invalid y in puzzle');
+        }
+        if ($square['value'] < 1 || $square['value'] > 9) {
+            throw new InvalidArgumentException('Invalid value in puzzle');
         }
     }
 
     private function createEmptyPuzzle(): array
     {
-        return array_fill(0, 9, array_fill(0, 9, null));
+        return array_fill(
+            0,
+            self::PUZZLE_SIZE,
+            array_fill(
+                0,
+                self::PUZZLE_SIZE,
+                null
+            )
+        );
     }
 }

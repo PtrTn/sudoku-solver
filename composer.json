@@ -13,6 +13,7 @@
       "ext-json": "*"
     },
     "require-dev": {
+        "symfony/phpunit-bridge": "^5.1"
     },
     "config": {
         "optimize-autoloader": true,
